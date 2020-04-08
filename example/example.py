@@ -68,7 +68,9 @@ def main(args):
     tr_elem = random.choice(trs)
     logging.info("clicking on {}".format(tr_elem))
 
+    # WebElements can be clicked on ...
     tr_elem.click()
+    
     # just prove we moved around
     delay = random.random() * args.pause
     logging.info("pausing for {:.4f} seconds".format(delay))
@@ -82,25 +84,11 @@ def main(args):
     delay = random.random() * args.pause
     time.sleep(delay)
     logging.info("pausing for {:.4f} seconds".format(delay))
-    # actions = ActionChains(driver)
-    # move_to_elem = driver.find_element_by_class_name("Footer")
-    # actions.click(move_to_elem)
-    # actions.perform()
-    # delay = random.random() * args.pause
-    # logging.info("pausing for {:.4f} seconds".format(delay))
 
     # just prove we moved around
     logging.info("took an after screenshot")
     driver.get_screenshot_as_file(os.path.join(head,
         "images/args_url_after.png"))
-
-    # print out how many table rows we have
-    # xpath finds
-
-    tr_count = 0
-    for tr in trs:
-        tr_count += 1
-
 
 
     driver.close()
