@@ -112,16 +112,12 @@ dmypy.json
 # local
 conf/
 .vagrant
-database_config.py
 *.html
 site.retry
 *.csv
-example.py
 *.db
-jail-harvester.wsgi
+
 
 data/
 .DS_Store
-# service-key.json
-db.py
-run_harvester.sh
+images/
