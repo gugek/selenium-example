@@ -1,0 +1,4 @@
+---
+- name: install selenium requirements
+  yum:
+    name: ['unzip', 'python-httplib2', 'Xvfb']

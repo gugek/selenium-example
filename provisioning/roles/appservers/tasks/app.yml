@@ -1,0 +1,25 @@
+---
+# appliation specific tasks
+- name: install project virtualenv
+  pip:
+    virtualenv: "{{ venv_dir }}"
+    virtualenv_python: /usr/bin/python3.6
+    name: wheel
+    state: present
+- name: install into virtualenv
+  pip:
+    chdir: "{{ repo_dir }}"
+    requirements: requirements.txt
+    executable: "{{ venv_dir }}/bin/pip"
+    state: present
+- name: change virtualenv permissions
+  file:
+    path: "{{ venv_dir }}"
+    owner: root
+    group: root
+    recurse: yes
+- name: when development change home directory permissions
+  file:
+    path: /home/vagrant
+    mode: '0755'
+  when: '"development" in group_names'

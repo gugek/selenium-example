@@ -1,0 +1,15 @@
+# group variables for development
+---
+hostname: selenium-example
+locale: 'en_US.UTF-8'
+language: 'en_US:en'
+timezone: 'Etc/UTC'
+ntp_server: 'pool.ntp.org'
+git_branch: master
+conf_dir: '/etc/httpd/conf.d'
+cron_dir: '/etc/cron.hourly'
+venv_dir: '/home/vagrant/.python-environments/selenium-example-env'
+app_dir: '/vagrant/selenium-example'
+repo_dir: '/vagrant'
+loglevel: debug
+logfile: '/var/log/selenium-example.log'

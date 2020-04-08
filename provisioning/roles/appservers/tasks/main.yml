@@ -1,0 +1,6 @@
+---
+- include: python.yml
+- include: app.yml
+- include: browser.yml
+- include: selenium.yml
+- include: cron.yml

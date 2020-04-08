@@ -1,0 +1,67 @@
+---
+- name: add google repository
+  yum_repository:
+      name: google-chrome
+      description: Google Chrome repo
+      file: google-chrome
+      baseurl: http://dl.google.com/linux/chrome/rpm/stable/x86_64
+      gpgkey: https://dl.google.com/linux/linux_signing_key.pub
+      gpgcheck: yes
+      enabled: yes
+- name: install google chrome
+  yum: name=google-chrome-stable
+# install chromedriver
+- name: Check supported architecture or not
+  fail:
+    msg: 'Only 64bit Linux is supported'
+  when: 'ansible_userspace_bits != "64"'
+
+- name: Ensure unzip is installed
+  package:
+    name: unzip
+  retries: 5
+  until: r is success
+  register: r
+
+- name: Get chromedriver version
+  command: '/opt/google/chromedriver/bin/chromedriver --version'
+  register: chromedriver_version_installed
+  changed_when: false
+  failed_when: false
+
+# latest version should correspond to chrome-stable
+- name: Get latest chromedriver version
+  when: chromedriver_version is not defined
+  block:
+    - name: Get latest chromedriver's information
+      uri:
+        url: https://chromedriver.storage.googleapis.com/LATEST_RELEASE
+        return_content: yes
+      register: chromedriver_latest
+      changed_when: false
+      failed_when: false
+
+    - name: Set latest chromedriver's version as chromedriver_version fact
+      set_fact:
+        chromedriver_version: '{{ chromedriver_latest.content }}'
+
+- name: Ensure install directory exists
+  file:
+    path: '/opt/google/chromedriver/bin'
+    state: directory
+
+- name: Install ChromeDriver
+  unarchive:
+    src: "https://chromedriver.storage.googleapis.com/{{ chromedriver_version }}/chromedriver_linux64.zip"
+    dest: "/opt/google/chromedriver/bin"
+    mode: 0755
+    copy: no
+  when:  >
+    chromedriver_version_installed.rc != 0 or
+      "ChromeDriver %s"|format(chromedriver_version) not in chromedriver_version_installed.stdout
+
+- name: Link chromedriver binary
+  file:
+    src: "/opt/google/chromedriver/bin/chromedriver"
+    dest: "/usr/bin/chromedriver"
+    state: link

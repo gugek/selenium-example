@@ -1,0 +1,11 @@
+---
+# site.yml
+- hosts: all
+  become: true
+  roles:
+    - common
+
+- hosts: appservers
+  become: true
+  roles:
+    - appservers

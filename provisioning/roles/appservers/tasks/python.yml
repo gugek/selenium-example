@@ -1,0 +1,6 @@
+---
+# basic packages
+- name: Install Python and dependencies
+  yum:
+    name: ['python', 'python-devel', 'python36u', 'python36u-devel',
+           'python-pip', 'python-virtualenv']
